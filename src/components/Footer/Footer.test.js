@@ -1,10 +1,10 @@
 import { render } from '@testing-library/vue'
+import { expect, test } from 'vitest'
 import Footer from './Footer.vue'
+import '@testing-library/jest-dom'
 
-describe('Footer.vue', () => {
-  test('Footer render', () => {
-    render(<Footer />)
-    const element = screen.getByText(/Instagram/i)
-    expect(element).toBeInTheDocument()
-  })
+test('footer has the text "Twitter"', async () => {
+  const { getByText } = render(Footer)
+  const elem = getByText('Twitter')
+  expect(elem).toBeInTheDocument()
 })
