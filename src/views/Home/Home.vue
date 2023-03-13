@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import axios from 'axios'
 import Card from '../../components/Card/Card.vue'
 import SearchBar from '../../components/SearchBar/SearchBar.vue'
+import Header from '../../components/Header/Header.vue'
+import Footer from '../../components/Footer/Footer.vue'
 
 const data = ref([])
 const isLoading = ref(true)
@@ -52,6 +54,7 @@ const handleClear = () => {
 
 <template>
   <div>
+    <Header></Header>
     <div v-if="isLoading === true">
       <p>En cours de chargement...</p>
     </div>
@@ -66,5 +69,6 @@ const handleClear = () => {
         <p>Not Found</p>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
