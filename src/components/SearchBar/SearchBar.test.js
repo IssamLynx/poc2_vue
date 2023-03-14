@@ -18,3 +18,24 @@ describe('When I write something in the input', () => {
     expect(elem).toBeInTheDocument()
   })
 })
+
+describe('WHen the input is empty', () => {
+  test('The Clear button should not be here', async () => {
+    const { queryByText, getByPlaceholderText } = render(SearchBar)
+    const input = getByPlaceholderText('Search')
+    await fireEvent.update(input, '')
+    const elem = queryByText('Clear')
+    expect(elem).not.toBeInTheDocument()
+  })
+})
+
+describe('When I click on the Clear button', () => {
+  test('The input should be empty', async () => {
+    const { getByText, getByPlaceholderText } = render(SearchBar)
+    const input = getByPlaceholderText('Search')
+    await fireEvent.update(input, 'test')
+    const clearButton = getByText('Clear')
+    await fireEvent.click(clearButton)
+    expect(input.value).toBe('')
+  })
+})
