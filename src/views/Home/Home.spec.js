@@ -2,6 +2,8 @@ import Home from './Home.vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import axios from 'axios'
+import { nextTick } from 'vue'
+import { flushPromises } from '@vue/test-utils'
 
 describe('Home', () => {
   afterAll(() => {
@@ -673,18 +675,6 @@ describe('Home', () => {
       type: 'TV'
     }
   ]
-  let wrapper = null
-  beforeEach(async () => {
-    wrapper = mount(Home)
-    let dataLoaded = false
-    while (!dataLoaded) {
-      if (wrapper.vm.data.length > 0) {
-        dataLoaded = true
-      } else {
-        await new Promise((resolve) => setTimeout(resolve, 100)) // Attendre 100ms avant de vérifier à nouveau
-      }
-    }
-  })
 
   vi.mock('axios')
 
@@ -693,11 +683,17 @@ describe('Home', () => {
   })
 
   describe('When Home component is rendered', () => {
-    test('first anime Fullmetal Alchemist: Brotherhood should be displayed', () => {
+    test('first anime Fullmetal Alchemist: Brotherhood should be displayed', async () => {
+      const wrapper = mount(Home)
+      await flushPromises() // axios promise is resolved immediately
       expect(wrapper.text()).toContain('Fullmetal Alchemist: Brotherhood')
     })
-    test('30 animes should be displayed', () => {
+    test('30 animes should be displayed', async () => {
+      const wrapper = mount(Home)
+      await flushPromises() // axios promise is resolved immediately
+
       const element = wrapper.findAll('[alt="poster"]')
+
       expect(element.length).toEqual(server_data.length)
     })
   })
