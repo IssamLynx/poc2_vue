@@ -2,7 +2,6 @@ import Home from './Home.vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import axios from 'axios'
-import { nextTick } from 'vue'
 import { flushPromises } from '@vue/test-utils'
 
 describe('Home', () => {
@@ -675,7 +674,9 @@ describe('Home', () => {
       type: 'TV'
     }
   ]
-
+  vi.mock('vue-router', () => ({
+    RouterLink: vi.fn()
+  }))
   vi.mock('axios')
 
   axios.get.mockResolvedValue({
