@@ -691,11 +691,35 @@ describe('Home', () => {
     })
     test('30 animes should be displayed', async () => {
       const wrapper = mount(Home)
-      await flushPromises() // axios promise is resolved immediately
-
+      await flushPromises()
       const element = wrapper.findAll('[alt="poster"]')
 
       expect(element.length).toEqual(server_data.length)
+    })
+  })
+
+  describe('When typing anime name in the search bar and clicking on the search button', () => {
+    test('The wanted anime is displayed', async () => {
+      const wrapper = mount(Home)
+      await flushPromises()
+      await wrapper.find("input[placeholder='Search']").setValue('fullmetal')
+      expect(await wrapper.find("input[placeholder='Search']").element.value).toBe('fullmetal')
+      await wrapper.find("button[role='search_button']").trigger('click')
+      const element = wrapper.findAll('[alt="poster"]')
+      expect(element.length).toEqual(1)
+      expect(wrapper.text()).toContain('Fullmetal Alchemist: Brotherhood')
+    })
+  })
+
+  describe('When clicking on the clear button after typing something"', () => {
+    test('All animes are displayed again', async () => {
+      const wrapper = mount(Home)
+      await flushPromises()
+      const input = await wrapper.find("input[placeholder='Search']").setValue('fullmetal')
+      expect(await wrapper.find("input[placeholder='Search']").element.value).toBe('fullmetal')
+      await wrapper.find("button[role='clear_button']").trigger('click')
+      const element = wrapper.findAll('[alt="poster"]')
+      expect(element.length).toEqual(30)
     })
   })
 })
