@@ -1,8 +1,18 @@
-const { test, expect } = require('@playwright/test');
+import { test, expect } from '@playwright/test'
 
-// See here how to get started:
-// https://playwright.dev/docs/intro
-test('visits the app root url', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('div.greetings > h1')).toHaveText('You did it!');
+test('has title', async ({ page }) => {
+  await page.goto('https://playwright.dev/')
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Playwright/)
+})
+
+test('get started link', async ({ page }) => {
+  await page.goto('https://playwright.dev/')
+
+  // Click the get started link.
+  await page.getByRole('link', { name: 'Get started' }).click()
+
+  // Expects the URL to contain intro.
+  await expect(page).toHaveURL(/.*intro/)
 })
