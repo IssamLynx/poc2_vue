@@ -29,6 +29,7 @@ const handleClear = () => {
       v-if="searchInput.length > 0"
       @click="handleClear"
       class="ml-[10px] w-[100px] h-[30px] border rounded bg-gray-200 border-gray-200"
+      role="clear_button"
     >
       Clear
     </button>

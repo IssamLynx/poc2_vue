@@ -1,5 +1,26 @@
+<template>
+  <div>
+    <Header></Header>
+    <div v-if="isLoading === true">
+      <p>En cours de chargement...</p>
+    </div>
+    <div v-else>
+      <SearchBar @handleSearch="handleSearch" @handleClear="handleClear" />
+      <div v-if="data.length > 0" class="my-6 flex flex-wrap justify-around py-1 flex-row">
+        <div v-for="(anime, index) in data" :key="index" class="my-10">
+          <Card :anime="anime" />
+        </div>
+      </div>
+      <div v-else>
+        <p>Not Found</p>
+      </div>
+    </div>
+    <Footer></Footer>
+  </div>
+</template>
+
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import Card from '../../components/Card/Card.vue'
 import SearchBar from '../../components/SearchBar/SearchBar.vue'
@@ -36,8 +57,9 @@ const fetchData = async () => {
   }
 }
 
-fetchData()
-
+onMounted(() => {
+  fetchData()
+})
 const handleSearch = (searchInput) => {
   if (searchInput.length > 0) {
     const filteredData = initialData.value.filter((anime) => {
@@ -46,29 +68,7 @@ const handleSearch = (searchInput) => {
     data.value = filteredData
   }
 }
-
 const handleClear = () => {
   data.value = initialData.value
 }
 </script>
-
-<template>
-  <div>
-    <Header></Header>
-    <div v-if="isLoading === true">
-      <p>En cours de chargement...</p>
-    </div>
-    <div v-else>
-      <SearchBar @handleSearch="handleSearch" @handleClear="handleClear" />
-      <div v-if="data.length > 0" class="my-6 flex flex-wrap justify-around py-1 flex-row">
-        <div v-for="(anime, index) in data" :key="index" class="my-10">
-          <Card :anime="anime" />
-        </div>
-      </div>
-      <div v-else>
-        <p>Not Found</p>
-      </div>
-    </div>
-    <Footer></Footer>
-  </div>
-</template>
