@@ -56,6 +56,7 @@ const fetchData = async () => {
     console.log(error.message)
   }
 }
+console.log(initialData)
 
 onMounted(() => {
   fetchData()
