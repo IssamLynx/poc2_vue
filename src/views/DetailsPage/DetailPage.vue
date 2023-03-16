@@ -1,10 +1,14 @@
 <script setup>
-import CardDetails from '../../components/CardDetails/CardDetails.Vue'
+import DetailsComponent from '@/components/CardDetails/DetailsComponent.vue'
+import Header from '@/components/Header/Header.vue'
+import Footer from '@/components/Footer/Footer.vue'
 </script>
 
 <template>
+  <Header />
   <Suspense>
-    <CardDetails />
+    <DetailsComponent />
     <template v-slot:fallback>Data is Loading....</template>
   </Suspense>
+  <Footer />
 </template>
