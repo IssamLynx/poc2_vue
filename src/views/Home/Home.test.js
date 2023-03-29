@@ -689,11 +689,10 @@ describe('Home', () => {
       await flushPromises() // axios promise is resolved immediately
       expect(wrapper.text()).toContain('Fullmetal Alchemist: Brotherhood')
     })
-    test('30 animes should be displayed', async () => {
+    test('animes returned by the server should be displayed', async () => {
       const wrapper = mount(Home)
       await flushPromises()
       const element = wrapper.findAll('[alt="poster"]')
-
       expect(element.length).toEqual(server_data.length)
     })
   })
