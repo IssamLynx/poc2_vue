@@ -1,6 +1,7 @@
 <script setup>
 import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
+import { getSpecificAnime } from '../../services/api'
 
 //PARAMS
 const route = useRoute()
@@ -11,24 +12,16 @@ const state = reactive({
   animeDetails: []
 })
 
-//OPTION
-const options = {
-  method: 'GET',
-  headers: {
-    'X-RapidAPI-Key': import.meta.env.VITE_APP_API_KEY,
-    'X-RapidAPI-Host': 'anime-db.p.rapidapi.com'
+const fetchSpecificAnime = async () => {
+  try {
+    const specificAnime = await getSpecificAnime(route.params.id)
+    state.animeDetails = specificAnime
+  } catch (error) {
+    console.error(error.message)
   }
 }
-//API CALL
-async function fetchAnimedetails() {
-  const response = await fetch(
-    `https://anime-db.p.rapidapi.com/anime/by-id/${route.params.id}`,
-    options
-  ).then((res) => res.json())
-  return response
-}
 
-state.animeDetails = await fetchAnimedetails()
+await fetchSpecificAnime()
 </script>
 
 <template>
