@@ -20,46 +20,31 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import { ref } from 'vue'
 import Card from '../../components/Card/Card.vue'
 import SearchBar from '../../components/SearchBar/SearchBar.vue'
 import Header from '../../components/Header/Header.vue'
 import Footer from '../../components/Footer/Footer.vue'
+import { getAllAnime } from '../../services/api'
 
 const data = ref([])
 const isLoading = ref(true)
 const initialData = ref([])
 
-const options = {
-  method: 'GET',
-  params: {
-    page: '1',
-    size: '30'
-  },
-  headers: {
-    'X-RapidAPI-Key': import.meta.env.VITE_APP_API_KEY,
-    'X-RapidAPI-Host': 'anime-db.p.rapidapi.com'
-  }
-}
-
-const fetchData = async () => {
+const fetchAnimeList = async () => {
   try {
-    const response = await axios.get(
-      'https://anime-db.p.rapidapi.com/anime?page=1&size=30',
-      options
-    )
-    data.value = response.data.data
-    initialData.value = response.data.data
-    isLoading.value = false
+    const animeList = await getAllAnime()
+    data.value = animeList
+    initialData.value = animeList
   } catch (error) {
-    console.log(error.message)
+    console.error(error.message)
+  } finally {
+    isLoading.value = false
   }
 }
 
-onMounted(() => {
-  fetchData()
-})
+fetchAnimeList()
+
 const handleSearch = (searchInput) => {
   if (searchInput.length > 0) {
     const filteredData = initialData.value.filter((anime) => {
