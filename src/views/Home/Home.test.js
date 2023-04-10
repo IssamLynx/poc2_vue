@@ -1,12 +1,11 @@
 import Home from './Home.vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest'
-import axios from 'axios'
 import { flushPromises } from '@vue/test-utils'
 
 describe('Home', () => {
   afterAll(() => {
-    axios.get.mockReset()
+    global.fetch.mockReset()
   })
   const server_data = [
     {
@@ -677,11 +676,12 @@ describe('Home', () => {
   vi.mock('vue-router', () => ({
     RouterLink: vi.fn()
   }))
-  vi.mock('axios')
 
-  axios.get.mockResolvedValue({
-    data: { data: server_data }
-  })
+  global.fetch = vi.fn(() =>
+    Promise.resolve({
+      json: () => Promise.resolve({ data: server_data })
+    })
+  )
 
   describe('When Home component is rendered', () => {
     test('first anime Fullmetal Alchemist: Brotherhood should be displayed', async () => {
