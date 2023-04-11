@@ -1,10 +1,10 @@
 <template>
   <router-link :to="`/details/${anime._id}`">
-    <div class="w-[200px] h-[270px] my-1">
+    <article class="w-[200px] h-[270px] my-1">
       <img :src="anime.image" alt="poster" class="w-full h-full object-cover" />
-      <p>{{ anime.title }}</p>
+      <h2>{{ anime.title }}</h2>
       <p>{{ anime.type }}</p>
-    </div>
+    </article>
   </router-link>
 </template>
 
