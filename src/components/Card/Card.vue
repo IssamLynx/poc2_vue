@@ -1,19 +1,40 @@
 <template>
-  <router-link :to="`/details/${anime._id}`">
+  <router-link :to="`/details/${id}`">
     <article class="w-[200px] h-[270px] my-1">
-      <img :src="anime.image" alt="poster" class="w-full h-full object-cover" />
-      <h2>{{ anime.title }}</h2>
-      <p>{{ anime.type }}</p>
+      <img
+        :src="image"
+        :alt="title"
+        class="w-full h-full object-cover"
+        @error="errorImageHandling"
+      />
+      <h2>{{ title }}</h2>
+      <p>{{ type }}</p>
     </article>
   </router-link>
 </template>
 
-<script>
-import { defineComponent } from 'vue'
+<script setup>
+import noImageAvailable from '@/assets/SVG/no_image_available.svg'
 
-export default defineComponent({
-  props: {
-    anime: Object
+const errorImageHandling = (event) => {
+  event.target.src = noImageAvailable
+}
+const props = defineProps({
+  title: {
+    type: String,
+    required: true
+  },
+  type: {
+    type: String,
+    required: true
+  },
+  image: {
+    type: String,
+    required: false
+  },
+  id: {
+    type: String,
+    required: true
   }
 })
 </script>
