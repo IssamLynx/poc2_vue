@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
-import { getSpecificAnime } from '../../services/api'
+import { getSpecificAnime } from '@/services/api'
 
 const route = useRoute()
 const id = route.params.id
