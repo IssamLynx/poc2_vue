@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home/Home.vue'
 import DetailsPage from '../views/DetailsPage/DetailPage.vue'
-import DetailsPage from '../components/Notfound/Notfound.vue'
+import Notfound from '../components/Notfound/Notfound.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,7 +15,7 @@ const router = createRouter({
       path: '/details/:id',
       component: DetailsPage
     },
-    { path: '/:pathMatch(.*)*', component: NotFound }
+    { path: '/:pathMatch(.*)*', component: Notfound }
   ]
 })
 

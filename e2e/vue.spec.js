@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 
 let URL = import.meta.env.VITE_APP_URL
-test.describe('navigation', () => {
+test.describe('navigaƒgetbytetion', () => {
   afterAll(() => {
     global.fetch.mockReset()
   })
