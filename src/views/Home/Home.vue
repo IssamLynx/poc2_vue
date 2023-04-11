@@ -3,22 +3,17 @@
     <p v-if="isLoading">En cours de chargement...</p>
     <div v-else>
       <SearchBar v-model="searchInput" />
-      <ul v-if="data.length > 0" class="my-6 flex flex-wrap justify-around py-1 flex-row">
-        <li v-for="(anime, index) in data" :key="index" class="my-10">
-          <Card :anime="anime" />
-        </li>
-      </ul>
-      <p v-else>Not Found</p>
+      <CardList :data="data" />
     </div>
   </defaultLayout>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import Card from '@/components/Card/Card.vue'
 import SearchBar from '@/components/SearchBar/SearchBar.vue'
 import defaultLayout from '@/layouts/defaultLayout.vue'
 import { getAllAnime } from '@/services/api'
+import CardList from '@/components/CardList/CardList.vue'
 
 const initialData = ref([])
 const isLoading = ref(true)
