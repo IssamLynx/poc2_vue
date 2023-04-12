@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test'
-
+let URL = process.env.VITE_APP_URL
 test.describe('navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5174/')
+    await page.goto(`${URL}`)
   })
   test('main navigation', async ({ page }) => {
     //URL ASSERTION
-    await expect(page).toHaveURL('http://localhost:5174/')
+    await expect(page).toHaveURL(`${URL}`)
     //EXEPCT RENDER ELEMENTS
     await expect(page.getByAltText('poster')).toHaveCount(30)
     //FIND INPU AND FILL WITH FULLMETAL
@@ -18,7 +18,7 @@ test.describe('navigation', () => {
     //ClICK ON IMAGE
     await page.getByAltText('poster').click()
     //URL ASSERTION
-    await expect(page).toHaveURL('http://localhost:5174/details/5114')
+    await expect(page).toHaveURL(`${URL}/details/5114`)
     //RENDER TITLE
     await expect(page.getByText('Fullmetal Alchemist: Brotherhood', { exact: true })).toBeVisible()
     //RENDER SYSNOPSIS
