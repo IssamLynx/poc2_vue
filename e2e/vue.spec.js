@@ -2,23 +2,21 @@ import { test, expect } from '@playwright/test'
 
 test.describe('navigation', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5174/')
+    await page.goto(process.env.VITE_APP_WEBSITE_LINK)
   })
   test('main navigation', async ({ page }) => {
     //URL ASSERTION
-    await expect(page).toHaveURL('http://localhost:5174/')
+    await expect(page).toHaveURL(process.env.VITE_APP_WEBSITE_LINK)
     //EXEPCT RENDER ELEMENTS
-    await expect(page.getByAltText('poster')).toHaveCount(30)
+    await expect(page.getByRole('article')).toHaveCount(30)
     //FIND INPU AND FILL WITH FULLMETAL
     await page.getByPlaceholder('Search').fill('Fullmetal')
-    //CLICK ON SEARCH BUTTON
-    await page.locator('button', { hasText: 'Search' }).click()
     //EXPECT RENDER ONLY ONE ELEMENT
-    await expect(page.getByAltText('poster')).toHaveCount(1)
+    await expect(page.getByRole('article')).toHaveCount(1)
     //ClICK ON IMAGE
-    await page.getByAltText('poster').click()
+    await page.getByRole('article').click()
     //URL ASSERTION
-    await expect(page).toHaveURL('http://localhost:5174/details/5114')
+    await expect(page).toHaveURL(process.env.VITE_APP_WEBSITE_LINK + 'details/5114')
     //RENDER TITLE
     await expect(page.getByText('Fullmetal Alchemist: Brotherhood', { exact: true })).toBeVisible()
     //RENDER SYSNOPSIS
