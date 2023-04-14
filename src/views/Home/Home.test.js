@@ -2,6 +2,7 @@ import Home from './Home.vue'
 import { mount } from '@vue/test-utils'
 import { afterAll, beforeEach, describe, expect, test, vi } from 'vitest'
 import { flushPromises } from '@vue/test-utils'
+import Card from '@/components/Card/Card.vue'
 
 describe('Home', () => {
   afterAll(() => {
@@ -692,8 +693,8 @@ describe('Home', () => {
     test('animes returned by the server should be displayed', async () => {
       const wrapper = mount(Home)
       await flushPromises()
-      const element = wrapper.findAll('[alt="poster"]')
-      expect(element.length).toEqual(server_data.length)
+      const cards = wrapper.findAllComponents(Card)
+      expect(cards).toHaveLength(server_data.length)
     })
   })
 
@@ -703,22 +704,23 @@ describe('Home', () => {
       await flushPromises()
       await wrapper.find("input[placeholder='Search']").setValue('fullmetal')
       expect(await wrapper.find("input[placeholder='Search']").element.value).toBe('fullmetal')
-      await wrapper.find('.cursor-pointer').trigger('click')
-      const element = wrapper.findAll('[alt="poster"]')
-      expect(element.length).toEqual(1)
+      const cards = wrapper.findAllComponents(Card)
+      expect(cards).toHaveLength(1)
       expect(wrapper.text()).toContain('Fullmetal Alchemist: Brotherhood')
     })
   })
 
-  describe('When clicking on the clear button after typing something"', () => {
+  describe('When Search input is empty"', () => {
     test('All animes are displayed again', async () => {
       const wrapper = mount(Home)
       await flushPromises()
       const input = await wrapper.find("input[placeholder='Search']").setValue('fullmetal')
       expect(await wrapper.find("input[placeholder='Search']").element.value).toBe('fullmetal')
-      await wrapper.find('.bg-gray-200').trigger('click')
-      const element = wrapper.findAll('[alt="poster"]')
-      expect(element.length).toEqual(30)
+      let cards = wrapper.findAllComponents(Card)
+      expect(cards).toHaveLength(1)
+      await wrapper.find("input[placeholder='Search']").setValue('')
+      cards = wrapper.findAllComponents(Card)
+      expect(cards).toHaveLength(30)
     })
   })
 })
