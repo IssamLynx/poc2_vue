@@ -681,22 +681,22 @@ test.describe('navigation', () => {
   )
 
   test.beforeEach(async ({ page }) => {
+
     await page.goto(URL)
   })
   test('main navigation', async ({ page }) => {
     //URL ASSERTION
     await expect(page).toHaveURL(URL)
     //EXEPCT RENDER ELEMENTS
-    await expect(page.getByAltText('poster')).toHaveCount(30)
+    await expect(page.getByRole('article')).toHaveCount(30)
     //FIND INPU AND FILL WITH FULLMETAL
     await page.getByPlaceholder('Search').fill('Fullmetal')
-    //CLICK ON SEARCH BUTTON
-    await page.locator('button', { hasText: 'Search' }).click()
     //EXPECT RENDER ONLY ONE ELEMENT
-    await expect(page.getByAltText('poster')).toHaveCount(1)
+    await expect(page.getByRole('article')).toHaveCount(1)
     //ClICK ON IMAGE
-    await page.getByAltText('poster').click()
+    await page.getByRole('article').click()
     //URL ASSERTION
+
     await expect(page).toHaveURL(`${URL}/details/5114`)
     //RENDER TITLE
     await expect(page.getByText('Fullmetal Alchemist: Brotherhood', { exact: true })).toBeVisible()
