@@ -10,7 +10,7 @@ import { RouterLink } from 'vue-router'
       <RouterLink to="/">Valeurs</RouterLink>
       <RouterLink to="/">Offres</RouterLink>
       <RouterLink to="/">Green IT</RouterLink>
-      <RouterLink to="/">Sécurité</RouterLink>
+      <RouterLink to="/">Login</RouterLink>
     </nav>
   </header>
 </template>

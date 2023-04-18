@@ -1,0 +1,43 @@
+name: Deploy to GitHub Pages
+on: [push]
+permissions:
+  contents: write
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests
+        run: npm run test
+  Build_and_deploy:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: Build
+        run: |
+          ls
+          export VITE_APP_API_KEY=${{ secrets.API_KEY }}
+          export VITE_APP_API_LINK_ALL_ANIME=${{ vars.API_LINK_ALL_ANIME }}
+          export VITE_APP_API_LINK_SPECIFIC_ANIME=${{ vars.LINK_SPECIFIC_ANIME }}
+          export VITE_APP_API_APP_WEBSITE_LINK=${{ vars.APP_WEBSITE_LINK }}
+          npm run build
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/
+  Lightouse:
+    needs: Build_and_deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: run Lighthouse CI
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: https://issamlynx.github.io/poc2_vue/
+          uploadArtifacts: true
