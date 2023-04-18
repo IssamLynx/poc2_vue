@@ -14,3 +14,27 @@ jobs:
 
       - name: Run tests
         run: npm run test
+
+  Build_and_deploy:
+    needs: unit-tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build
+        run: |
+          ls
+          export VITE_APP_API_KEY=${{ secrets.API_KEY }}
+          export VITE_APP_API_LINK_ALL_ANIME=${{ secrets.API_LINK_ALL_ANIME }}
+          export VITE_APP_API_PROJECT_DEPLOYMENT_LINK=${{ secrets.PROJECT_DEPLOYMENT_LINK }}
+          export VITE_APP_API_APP_WEBSITE_LINK=${{ secrets.APP_WEBSITE_LINK }}
+          npm run build
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist/
